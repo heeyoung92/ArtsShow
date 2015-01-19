@@ -1,44 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-<!--    <ImageView
-        android:id="@+id/artistView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" /> -->
-    <TextView
-        android:id="@+id/artistName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
- <!--   <TextView
-        android:id="@+id/artistNation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/artistUniv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/group1">
+        <ImageView
+            android:id="@+id/artistView"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_marginLeft="20px"
+            android:src ="@drawable/ic_action_add"         />
+
+        <TextView
+            android:id="@+id/artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+
+            android:layout_toRightOf="@id/artistView"
+                      />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1시간 전"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20px"
+           />
+
+        <TextView
+            android:id="@+id/artistNation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Korea"
+
+            android:layout_alignLeft="@id/artistName"
+            android:layout_below="@id/artistName"
+            android:layout_alignBaseline="@id/artistView"
+
+            />
+
+        <TextView
+            android:id="@+id/slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = " / "
+
+            android:layout_below="@id/artistName"
+            android:layout_alignBaseline="@id/artistView"
+
+            android:layout_toRightOf="@id/artistNation"
+            />
+        <TextView
+            android:id="@+id/artistUniv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홍익대학교 도예유리과"
+            android:layout_below="@id/artistName"
+            android:layout_alignBaseline="@id/artistView"
+
+            android:layout_toRightOf="@id/slash"/>
+    </RelativeLayout>
+
     <ImageView
-        android:id="@+id/artsView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" /> -->
-    <Button
-        android:id="@+id/button_like"
+        android:id="@+id/arts_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="좋아요"  />
-<!--    <TextView
-        android:id="@+id/like_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/arts_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
--->
+        android:src="@drawable/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/button_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="좋아요"  />
+        <TextView
+            android:id="@+id/like_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+2"/>
+
+        <TextView
+            android:id="@+id/arts_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작품명"/>
+
+    </LinearLayout>
+
+
 </LinearLayout>
