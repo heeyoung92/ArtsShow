@@ -75,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
 
             m_Adapter.add("전희영");
             m_Adapter.add("구준호");
+            m_Adapter.add("소고기");
 
 
             return rootView;
