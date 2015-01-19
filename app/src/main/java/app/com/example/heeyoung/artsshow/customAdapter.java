@@ -1,13 +1,13 @@
 package app.com.example.heeyoung.artsshow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +42,7 @@ public class customAdapter extends BaseAdapter {
         return position;
     }
 
+    String  artsID;
     // 출력 될 아이템 관리
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -78,6 +79,7 @@ public class customAdapter extends BaseAdapter {
         // TextView에 현재 position의 문자열 추가
         text.setText(m_List.get(position));
 
+
         // 버튼을 터치 했을 때 이벤트 발생
         btn.setOnClickListener(new OnClickListener() {
             @Override
@@ -89,13 +91,18 @@ public class customAdapter extends BaseAdapter {
         });
 
             // 리스트 아이템을 터치 했을 때 이벤트 발생
-        convertView.setOnClickListener(new OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // 터치 시 해당 아이템 이름 출력
-                    Toast.makeText(context, "작품 디테일 호출 : "+m_List.get(pos), Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void onClick(View v) {
+                // 터치 시 해당 아이템 이름 출력
+                Toast.makeText(context, "작품 디테일 호출 : " + m_List.get(pos), Toast.LENGTH_SHORT).show();
+
+
+                Intent intent = new Intent(context, DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, m_List.get(pos));
+                context.startActivity(intent);
+            }
         });
 
         // 리스트 아이템을 길게 터치 했을 떄 이벤트 발생
