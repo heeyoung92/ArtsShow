@@ -1,15 +1,28 @@
 package app.com.example.heeyoung.artsshow;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class DetailActivity extends ActionBarActivity {
@@ -71,7 +84,68 @@ public class DetailActivity extends ActionBarActivity {
                 ((TextView)rootView.findViewById(R.id.artsId))
                         .setText(mArtsID);
             }
+
+            updateProducts();
+
+
             return rootView;
         }
+
+        private void updateProducts(){
+
+            FetchProductsTask productsTask = new FetchProductsTask();
+
+            productsTask.execute("0");
+        }
+
+
+        private class FetchProductsTask extends AsyncTask<String, Void, String[]> {
+            @Override
+            protected String[] doInBackground(String... params) {
+
+                HttpClient httpClient = new DefaultHttpClient();
+
+                HttpGet httpGet = new HttpGet("http://arts.9cells.com/products/111/111");
+                HttpResponse response;
+                try {
+                    response = httpClient.execute(httpGet);
+                    HttpEntity entity = response.getEntity();
+
+                    if (entity != null) {
+                        InputStream inputStream = entity.getContent();
+                        String result = convertStreamToString(inputStream);
+                        Log.e("haha", result);
+                    }
+
+                } catch (Exception e) {
+
+                }
+
+                return null;
+            }
+
+            private String convertStreamToString(InputStream is) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                try {
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return sb.toString();
+            }
+
+        }
+
     }
 }
