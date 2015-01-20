@@ -71,27 +71,35 @@
         android:id="@+id/arts_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher"
+        android:layout_gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <Button
             android:id="@+id/button_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="좋아요"  />
+            android:text="Like"  />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"/>
+
         <TextView
             android:id="@+id/like_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+2"/>
+            android:text="0"/>
 
         <TextView
             android:id="@+id/arts_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="작품명"/>
+            android:text="작품명"
+            android:gravity="center"/>
 
     </LinearLayout>
 
