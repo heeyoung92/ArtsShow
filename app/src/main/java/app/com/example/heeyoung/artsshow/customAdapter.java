@@ -141,16 +141,20 @@ public class customAdapter extends ArrayAdapter<ListItem> {
         Artist_na.setText(m_List.get(position).artist_nation);
         Artist_inf.setText(m_List.get(position).artist_info);
         Time.setText(m_List.get(position).time);
- //      Like.setText(m_List.get(position).like_num);
+        Like.setText(String.valueOf(m_List.get(position).like_num));
         Arts_text.setText(m_List.get(position).arts_name);
 
         // 버튼을 터치 했을 때 이벤트 발생
+        final TextView finalLike = Like;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
 
                 public void onClick(View v) {
-                    // 터치 시 해당 아이템 이름 출력
-                    Toast.makeText(context, "+1", Toast.LENGTH_SHORT).show();
+                    // 터치 시 해당 아이템 좋아요 +1
+                    m_List.get(pos).like_num++;
+                    finalLike.setText(String.valueOf(m_List.get(pos).like_num));
+
+    //                Toast.makeText(context, "+1", Toast.LENGTH_SHORT).show();
                 }
         });
 
