@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -54,9 +56,11 @@ public class MainActivity extends ActionBarActivity {
 
     public static class PlaceholderFragment extends Fragment {
 
+        private ArrayList<ListItem> Array_Data;
 
         private ListView m_artsList;
         private customAdapter m_Adapter;
+        private ListItem data;
 
         public PlaceholderFragment() {
         }
@@ -65,18 +69,27 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            m_Adapter = new customAdapter();
+            Array_Data = new ArrayList<ListItem>();
+            data = new ListItem(0,R.drawable.ic_launcher, "전희영",
+                    "Korea","홍익대학교 도예유리","1시간 전",R.drawable.ic_launcher,2,"작품명1");
+            Array_Data.add(data);
+
+
+            data = new ListItem(1,R.drawable.ic_action_add, "구준호",
+                    "Korea","홍익대학교 회화과","3시간 전",R.drawable.ic_launcher,5,"작품명2");
+            Array_Data.add(data);
+
+
+            data = new ListItem(2, R.drawable.ic_action_add, "소고기",
+                    "Korea","홍익대학교 패션디자인","5시간 전",R.drawable.ic_launcher,3,"작품명4");
+            Array_Data.add(data);
+
+
+            m_Adapter = new customAdapter(getActivity(), android.R.layout.simple_list_item_1, Array_Data);
 
             m_artsList = (ListView) rootView.findViewById(R.id.artslist);
 
-             m_artsList.setAdapter(m_Adapter);
-
-            m_Adapter.add("전희영");
-            m_Adapter.add("구준호");
-            m_Adapter.add("소고기");
-
-
-
+            m_artsList.setAdapter(m_Adapter);
 
 
             return rootView;
