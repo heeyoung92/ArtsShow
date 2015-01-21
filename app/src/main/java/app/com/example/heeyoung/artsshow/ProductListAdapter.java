@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import app.com.example.heeyoung.artsshow.model.Product;
 
 public class ProductListAdapter extends ArrayAdapter<Product>
@@ -24,20 +26,19 @@ public class ProductListAdapter extends ArrayAdapter<Product>
     public View getView(int position, View convertView, ViewGroup parent)
     {
         final Context context = parent.getContext();
-        ViewHolder holder = new ViewHolder();
+        ViewHolder holder = null;
 
         if ( convertView == null ) {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_item, parent, false);
 
-//            holder = new ViewHolder();
+            holder = new ViewHolder();
             convertView.setTag(holder);
 
             holder.m_artist_img = (ImageView)convertView.findViewById(R.id.artistView);
             holder.m_artist_name = (TextView)convertView.findViewById(R.id.artistName);
             holder.m_artist_na = (TextView)convertView.findViewById(R.id.artistNation);
             holder.m_artist_inf = (TextView)convertView.findViewById(R.id.artistUniv);
-//            holder.m_artist_na = (TextView)convertView.findViewById(R.id.artistUniv);
             holder.m_time = (TextView)convertView.findViewById(R.id.time);
             holder.m_arts_img = (ImageView)convertView.findViewById(R.id.arts_image);
             holder.m_arts_text = (TextView)convertView.findViewById(R.id.arts_name);
@@ -48,14 +49,21 @@ public class ProductListAdapter extends ArrayAdapter<Product>
         }
 
         final Product product = getItem(position);
+
+        Glide.with(context)
+                .load("http://arts.9cells.com/assets/4.jpeg")
+                .into(holder.m_artist_img);
         holder.m_artist_name.setText(product.brand.brand_name);
         holder.m_artist_na.setText(product.brand.brand_country);
         holder.m_artist_inf.setText(product.brand.brand_info);
         holder.m_time.setText(product.updated_at);
-        holder.m_like.setText(String.valueOf(product.prd_num_likes));
+
+        //holder.m_arts_img = 이미지로드
+        Glide.with(context)
+                .load("http://arts.9cells.com/assets/3.jpeg")
+                .into(holder.m_arts_img);
         holder.m_arts_text.setText(product.prd_title);
-//        holder.m_artist_img = 이미지로드
-//        holder.m_arts_img = 이미지로드
+        holder.m_like.setText(String.valueOf(product.prd_num_likes));
 
         // 버튼을 터치 했을 때 이벤트 발생
         final TextView finalLike = holder.m_like;
