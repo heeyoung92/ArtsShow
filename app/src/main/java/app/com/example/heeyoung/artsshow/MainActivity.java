@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -34,6 +38,15 @@ public class MainActivity extends ActionBarActivity
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container,new ProductListFragment())
                     .commit();
+        }
+
+        // Glide 캐시 설정 https://github.com/bumptech/glide/wiki/Configuration
+        // Disk 100MB, Mem 20MB
+        if (!Glide.isSetup()) {
+            Glide.setup(new GlideBuilder(this)
+                    .setDiskCache(DiskLruCacheWrapper.get(Glide.getPhotoCacheDir(this), 100000000))
+                    .setMemoryCache(new LruResourceCache(20000000))
+            );
         }
     }
 

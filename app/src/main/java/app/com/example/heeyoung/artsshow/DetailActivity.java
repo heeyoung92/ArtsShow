@@ -11,10 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import app.com.example.heeyoung.artsshow.model.Image;
+import app.com.example.heeyoung.artsshow.model.Product;
 
 
 public class DetailActivity extends ActionBarActivity
@@ -58,17 +64,14 @@ public class DetailActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
             Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-//                mArtsID = intent.getStringExtra(Intent.EXTRA_TEXT);
-//                ((TextView)rootView.findViewById(R.id.artsId))
-//                        .setText(mArtsID);
-//                ((TextView)rootView.findViewById(R.id.artsId)).setText(mArtsID);
-            }
+            Product product = intent.getParcelableExtra("product");
+            ((TextView)rootView.findViewById(R.id.detail_arts_name)).setText(product.prd_title);
+            ((TextView)rootView.findViewById(R.id.detail_caption)).setText(product.prd_desc);
 
             //작품 갤러리 뷰
             @SuppressWarnings("deprecation")
             Gallery gal =(Gallery)rootView.findViewById(R.id.detail_arts_img);
-            gal.setAdapter(new galleryAdapter(getActivity()));
+            gal.setAdapter(new galleryAdapter(getActivity(), android.R.layout.simple_list_item_1, product.images));
 
             // 사진 선택
             gal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -87,46 +90,27 @@ public class DetailActivity extends ActionBarActivity
     }
 }
 
-class galleryAdapter extends BaseAdapter
+class galleryAdapter extends ArrayAdapter<Image>
 {
-    private Context context;
-
-    //작품사진
-    private int[] arts_picture_ids = {
-            R.drawable.image,
-            R.drawable.arts_add,
-            R.drawable.image
-    };
-
-    public galleryAdapter(Context c) {
-        context = c;
-    }
-
-    public int getCount() {
-        return arts_picture_ids.length;
-    }
-
-    public Object getItem(int position) {
-        return arts_picture_ids[position];
-    }
-
-    public long getItemId(int position) {
-        return position;
+    public galleryAdapter(Context context, int resource, Image[] objects)
+    {
+        super(context, resource, objects);
     }
 
     @SuppressWarnings("deprecation")
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         ImageView imageView;
-
         if (convertView == null) {
-            imageView = new ImageView(context);
+            imageView = new ImageView(getContext());
         } else {
-            imageView = (ImageView) convertView;
+            imageView = (ImageView)convertView;
         }
-
-        imageView.setImageResource(arts_picture_ids[position]);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setLayoutParams(new Gallery.LayoutParams(136, 88));
+
+        Image image = getItem(position);
+        Glide.with(getContext()).load(image.url).into(imageView);
         return imageView;
     }
 }

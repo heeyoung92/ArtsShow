@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -50,22 +49,17 @@ public class ProductListAdapter extends ArrayAdapter<Product>
 
         final Product product = getItem(position);
 
-        Glide.with(context)
-                .load("http://arts.9cells.com/assets/4.jpeg")
-                .into(holder.m_artist_img);
+        Glide.with(context).load(product.brand.brand_image).into(holder.m_artist_img);
         holder.m_artist_name.setText(product.brand.brand_name);
         holder.m_artist_na.setText(product.brand.brand_country);
         holder.m_artist_inf.setText(product.brand.brand_info);
         holder.m_time.setText(product.updated_at);
 
-        //holder.m_arts_img = 이미지로드
-        Glide.with(context)
-                .load("http://arts.9cells.com/assets/3.jpeg")
-                .into(holder.m_arts_img);
+        Glide.with(context).load(product.images[0].url).into(holder.m_arts_img);
         holder.m_arts_text.setText(product.prd_title);
         holder.m_like.setText(String.valueOf(product.prd_num_likes));
 
-        // 버튼을 터치 했을 때 이벤트 발생
+        // like 버튼 클릭 리스너
         final TextView finalLike = holder.m_like;
         holder.m_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,19 +71,18 @@ public class ProductListAdapter extends ArrayAdapter<Product>
             }
         });
 
-        // 작품이미지 터치시 이벤트 발생
+        // 작품 사진 클릭 리스너
         holder.m_arts_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "작품 디테일 호출 : " + product.prd_id, Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(context, "작품 디테일 호출 : " + product.prd_id, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT, product.prd_id);
+                intent.putExtra("product", product);
                 context.startActivity(intent);
             }
         });
 
-        //작가 프로필 사진 클릭리스너
+        // 프로필 사진 클릭 리스너
         holder.m_artist_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,18 +90,6 @@ public class ProductListAdapter extends ArrayAdapter<Product>
                 context.startActivity(intent);
             }
         });
-
-        // 리스트 아이템을 길게 터치 했을 떄 이벤트 발생
-        /*
-        convertView.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 롱 클릭 : " + product, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-        */
 
         return convertView;
     }
