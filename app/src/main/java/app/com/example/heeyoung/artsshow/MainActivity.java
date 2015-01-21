@@ -54,7 +54,9 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_profile) {
             //나의 프로필 보기
             Intent intent = new Intent(this, ProfileActivity.class);
+            //+ 나의 ID 넘겨주기
             startActivity(intent);
+
 
             return true;
         }
@@ -87,7 +89,7 @@ public class MainActivity extends ActionBarActivity
             ListView productListView = (ListView)rootView.findViewById(R.id.artslist);
             productListView.setAdapter(mProductListAdapter);
 
-            updateProducts();
+     //       updateProducts();
 
             return rootView;
         }

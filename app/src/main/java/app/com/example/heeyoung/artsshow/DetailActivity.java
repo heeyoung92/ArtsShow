@@ -97,7 +97,7 @@ public class DetailActivity extends ActionBarActivity
             });
 
 
-     //       updateProduct();
+            updateProduct();
 
             return rootView;
         }

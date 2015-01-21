@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/group1">
-        <ImageView
+        <ImageButton
             android:id="@+id/artistView"
             android:layout_width="50dip"
             android:layout_height="50dip"
