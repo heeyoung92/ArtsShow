@@ -20,7 +20,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import java.util.ArrayList;
+import app.com.example.heeyoung.artsshow.model.Product;
 
 
 public class MainActivity extends ActionBarActivity
@@ -32,10 +32,9 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container,new PlaceholderFragment())
+                    .add(R.id.container,new ProductListFragment())
                     .commit();
         }
-
     }
 
     @Override
@@ -49,44 +48,31 @@ public class MainActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
-     /*   if (id == R.id.action_settings) {
+        if (id == R.id.action_settings) {
             return true;
-        }*/
-        if (id == R.id.action_profile) {
+        } else if (id == R.id.action_profile) {
             //나의 프로필 보기
             Intent intent = new Intent(this, ProfileActivity.class);
             //+ 나의 ID 넘겨주기
             startActivity(intent);
             return true;
-        }
-        if(id==R.id.action_add){
+        } else if (id == R.id.action_add) {
             //작품추가 화면 띄우기
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static class PlaceholderFragment extends Fragment
+    public static class ProductListFragment extends Fragment
     {
-        private ArrayAdapter<ListItem> mProductListAdapter;
+        private ArrayAdapter<Product> mProductListAdapter;
 
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container,
                                  Bundle savedInstanceState)
         {
-            ArrayList<ListItem> productList = new ArrayList<ListItem>();
-//            productList.add(new ListItem("0", R.drawable.ic_launcher, "전희영",
-//                    "Korea", "홍익대학교 도예유리", "1시간 전", R.drawable.ic_launcher, 2, "작품명1"));
-//            productList.add(new ListItem("1", R.drawable.ic_action_add, "구준호",
-//                    "Korea", "홍익대학교 회화과", "3시간 전", R.drawable.ic_launcher, 5, "작품명2"));
-//            productList.add(new ListItem("2", R.drawable.ic_action_add, "소고기",
-//                    "Korea", "홍익대학교 패션디자인", "5시간 전", R.drawable.ic_launcher, 3, "작품명4"));
-
-            mProductListAdapter = new customAdapter(
-                    getActivity(),
-                    android.R.layout.simple_list_item_1,
-                    productList);
+            mProductListAdapter = new ProductListAdapter(getActivity(), android.R.layout.simple_list_item_1);
 
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             ListView productListView = (ListView)rootView.findViewById(R.id.artslist);
@@ -132,11 +118,11 @@ public class MainActivity extends ActionBarActivity
 
                 if ( jsonString.length() > 0 ) {
                     Gson gson = new GsonBuilder().create();
-                    ListItem[] items = gson.fromJson(jsonString, ListItem[].class);
+                    Product[] products = gson.fromJson(jsonString, Product[].class);
 
                     mProductListAdapter.clear();
-                    for(ListItem item : items) {
-                        mProductListAdapter.add(item);
+                    for(Product product : products) {
+                        mProductListAdapter.add(product);
                     }
                 }
             }

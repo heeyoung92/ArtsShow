@@ -26,7 +26,7 @@ public class DetailActivity extends ActionBarActivity
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new ProductDetailFragment())
                     .commit();
         }
     }
@@ -34,7 +34,6 @@ public class DetailActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
@@ -42,21 +41,15 @@ public class DetailActivity extends ActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         if (id == R.id.action_back) {
                finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static class PlaceholderFragment extends Fragment
+    public static class ProductDetailFragment extends Fragment
     {
-        private String mArtsID;
-
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container,
@@ -64,9 +57,9 @@ public class DetailActivity extends ActionBarActivity
         {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-            Intent intent = getActivity().getIntent();      // 작품ID 받음
+            Intent intent = getActivity().getIntent();
             if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                mArtsID = intent.getStringExtra(Intent.EXTRA_TEXT);
+//                mArtsID = intent.getStringExtra(Intent.EXTRA_TEXT);
 //                ((TextView)rootView.findViewById(R.id.artsId))
 //                        .setText(mArtsID);
 //                ((TextView)rootView.findViewById(R.id.artsId)).setText(mArtsID);
@@ -83,7 +76,8 @@ public class DetailActivity extends ActionBarActivity
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(getActivity(), position + "번째 그림 선택", Toast.LENGTH_SHORT).show();
                 }
-                public void onNothingSelected(AdapterView<?> parent){
+
+                public void onNothingSelected(AdapterView<?> parent) {
 
                 }
             });
@@ -93,7 +87,8 @@ public class DetailActivity extends ActionBarActivity
     }
 }
 
-class galleryAdapter extends BaseAdapter {
+class galleryAdapter extends BaseAdapter
+{
     private Context context;
 
     //작품사진
@@ -103,36 +98,36 @@ class galleryAdapter extends BaseAdapter {
             R.drawable.image
     };
 
-    public galleryAdapter(Context c){
+    public galleryAdapter(Context c) {
         context = c;
     }
-    public int getCount(){
+
+    public int getCount() {
         return arts_picture_ids.length;
     }
 
-    public Object getItem(int position){
+    public Object getItem(int position) {
         return arts_picture_ids[position];
     }
-    public long getItemId(int position){
+
+    public long getItemId(int position) {
         return position;
     }
 
     @SuppressWarnings("deprecation")
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
 
-        if(convertView == null){
+        if (convertView == null) {
             imageView = new ImageView(context);
-
-        }else{
+        } else {
             imageView = (ImageView) convertView;
         }
 
         imageView.setImageResource(arts_picture_ids[position]);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setLayoutParams(new Gallery.LayoutParams(136,88));
+        imageView.setLayoutParams(new Gallery.LayoutParams(136, 88));
         return imageView;
-
     }
 }
 
