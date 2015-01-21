@@ -19,31 +19,48 @@ import java.util.ArrayList;
  */
 
 class ListItem {
-    ListItem(int marts_ID, int martist_image, String martist_name, String martist_nation, String martist_info,
-             String mtime, int marts_image,int mlike_num,String marts_name){
+    ListItem(String marts_ID, int martist_image, String martist_name, String martist_nation, String martist_info,
+             String mtime, int marts_image,int mlike_num,String marts_name)
+    {
+        prd_id = marts_ID; // 작품 아이디(고유값)
 
-        arts_ID = marts_ID; // 작품 아이디(고유값)
-
-        artist_image = martist_image;
-        artist_name = martist_name;
-        artist_nation = martist_nation;
-        artist_info = martist_info;
-        time = mtime;
-
-        arts_image = marts_image;
-        like_num = mlike_num;
+//        artist_image = R.drawable.ic_launcher;
+//        artist_name = martist_name;
+//        artist_nation = martist_nation;
+//        artist_info = martist_info;
+//        time = mtime;
+//
+//        arts_image = marts_image;
+//        like_num = mlike_num;
         prd_title = marts_name;
     }
 
-    int arts_ID;
-    int artist_image;
-    String artist_name;
-    String artist_nation;
-    String artist_info;
-    String time;
-    int arts_image;
-    int like_num;
+//    int arts_ID;
+//    int artist_image;
+//    String artist_name;
+//    String artist_nation;
+//    String artist_info;
+//    String time;
+//    int arts_image;
+//    int like_num;
+
+    String prd_id;
+    String prd_brand_id;
     String prd_title;
+    int prd_price;
+    int prd_status;
+    int prd_num_likes;
+    String prd_desc;
+    String updated_at;
+    Brand brand;
+}
+
+class Brand
+{
+    int brand_id;
+    String brand_name;
+    String brand_country;
+    String brand_info;
 }
 
 public class customAdapter extends ArrayAdapter<ListItem> {
@@ -110,14 +127,14 @@ public class customAdapter extends ArrayAdapter<ListItem> {
 
             // 홀더 생성 및 Tag로 등록
             holder=new
-            CustomHolder();
+                    CustomHolder();
 
             holder.m_TextView= Artist_text;
             holder.m_Btn= btn;
-      //      holder.m_artist_img =artist_img;
+            //      holder.m_artist_img =artist_img;
             holder.m_artist_na =Artist_na;
             holder.m_artist_inf=Artist_inf;
-      //      holder.m_arts_img = Arts_img;
+            //      holder.m_arts_img = Arts_img;
             holder.m_time = Time;
             holder.m_arts_text = Arts_text;
             holder.m_like = Like;
@@ -128,61 +145,65 @@ public class customAdapter extends ArrayAdapter<ListItem> {
             Artist_text = holder.m_TextView;
             btn = holder.m_Btn;
 
-    //        artist_img =holder.m_artist_img;
+            //        artist_img =holder.m_artist_img;
             Artist_na = holder.m_artist_na;
             Artist_inf = holder.m_artist_inf;
-    //        arts_img=holder.m_arts_img;
+            //        arts_img=holder.m_arts_img;
             Time = holder.m_time;
             Arts_text = holder.m_arts_text;
             Like = holder.m_like;
         }
 
         // 현재 position의 작가이름 추가
-        Artist_text.setText(m_List.get(position).artist_name);
-        Artist_na.setText(m_List.get(position).artist_nation);
-        Artist_inf.setText(m_List.get(position).artist_info);
-        Time.setText(m_List.get(position).time);
-        Like.setText(String.valueOf(m_List.get(position).like_num));
+        Artist_text.setText(m_List.get(position).brand.brand_name);
+        Artist_na.setText(m_List.get(position).brand.brand_country);
+        Artist_inf.setText(m_List.get(position).brand.brand_info);
+        Time.setText(m_List.get(position).updated_at);
+        Like.setText(String.valueOf(m_List.get(position).prd_num_likes));
         Arts_text.setText(m_List.get(position).prd_title);
 
         // 버튼을 터치 했을 때 이벤트 발생
         final TextView finalLike = Like;
         btn.setOnClickListener(new View.OnClickListener() {
+
             @Override
-
-                public void onClick(View v) {
-                    // 터치 시 해당 아이템 좋아요 +1
-                    m_List.get(pos).like_num++;
-                    finalLike.setText(String.valueOf(m_List.get(pos).like_num));
-
-    //                Toast.makeText(context, "+1", Toast.LENGTH_SHORT).show();
-                }
-        });
-
-            // 작품이미지 터치시 이벤트 발생
-      Arts_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-
             public void onClick(View v) {
-                Toast.makeText(context, "작품 디테일 호출 : " + m_List.get(pos).arts_ID, Toast.LENGTH_SHORT).show();
+                // 터치 시 해당 아이템 좋아요 +1
+                m_List.get(pos).prd_num_likes++;
+                finalLike.setText(String.valueOf(m_List.get(pos).prd_num_likes));
 
-                Intent intent = new Intent(context, DetailActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, m_List.get(pos).arts_ID);
-                context.startActivity(intent);
+                //                Toast.makeText(context, "+1", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // 작품이미지 터치시 이벤트 발생
+        if ( Arts_img != null ) {
+            Arts_img.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "작품 디테일 호출 : " + m_List.get(pos).prd_id, Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(context, DetailActivity.class)
+                            .putExtra(Intent.EXTRA_TEXT, m_List.get(pos).prd_id);
+                    context.startActivity(intent);
+                }
+            });
+        }
 
 
         //작가 프로필 사진 클릭리스너
-        Artist_img.setOnClickListener(new View.OnClickListener() {
-            @Override
+        if ( Artist_img != null ) {
+            Artist_img.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ProfileActivity.class);
- //                       .putExtra(Intent.EXTRA_TEXT, m_List.get(pos).artist_ID);
-                context.startActivity(intent);
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    //                       .putExtra(Intent.EXTRA_TEXT, m_List.get(pos).artist_ID);
+                    context.startActivity(intent);
+                }
+            });
+        }
 
 
 
@@ -200,7 +221,7 @@ public class customAdapter extends ArrayAdapter<ListItem> {
         return convertView;
     }
 
-// 스크롤 시 데이터가 변경 되는 것과 findViewById()를 사용을 줄여 속도 향상
+    // 스크롤 시 데이터가 변경 되는 것과 findViewById()를 사용을 줄여 속도 향상
     private class CustomHolder {
         TextView    m_TextView;
         Button      m_Btn;
@@ -214,12 +235,12 @@ public class customAdapter extends ArrayAdapter<ListItem> {
         TextView m_arts_text;
     }
 
-//    public void add_artsId(){return }
+    //    public void add_artsId(){return }
     // 외부에서 아이템 추가 요청 시 사용
     public void add(ListItem _data) {m_List.add(_data);}
 
     // 외부에서 아이템 삭제 요청 시 사용
-  //  public void remove(int _position) {
-   //     m_List.remove(_position);
-   // }
+    //  public void remove(int _position) {
+    //     m_List.remove(_position);
+    // }
 }

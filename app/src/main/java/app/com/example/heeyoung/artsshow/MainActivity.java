@@ -76,12 +76,12 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState)
         {
             ArrayList<ListItem> productList = new ArrayList<ListItem>();
-            productList.add(new ListItem(0, R.drawable.ic_launcher, "전희영",
-                    "Korea", "홍익대학교 도예유리", "1시간 전", R.drawable.ic_launcher, 2, "작품명1"));
-            productList.add(new ListItem(1, R.drawable.ic_action_add, "구준호",
-                    "Korea", "홍익대학교 회화과", "3시간 전", R.drawable.ic_launcher, 5, "작품명2"));
-            productList.add(new ListItem(2, R.drawable.ic_action_add, "소고기",
-                    "Korea", "홍익대학교 패션디자인", "5시간 전", R.drawable.ic_launcher, 3, "작품명4"));
+//            productList.add(new ListItem("0", R.drawable.ic_launcher, "전희영",
+//                    "Korea", "홍익대학교 도예유리", "1시간 전", R.drawable.ic_launcher, 2, "작품명1"));
+//            productList.add(new ListItem("1", R.drawable.ic_action_add, "구준호",
+//                    "Korea", "홍익대학교 회화과", "3시간 전", R.drawable.ic_launcher, 5, "작품명2"));
+//            productList.add(new ListItem("2", R.drawable.ic_action_add, "소고기",
+//                    "Korea", "홍익대학교 패션디자인", "5시간 전", R.drawable.ic_launcher, 3, "작품명4"));
 
             mProductListAdapter = new customAdapter(
                     getActivity(),
@@ -92,7 +92,7 @@ public class MainActivity extends ActionBarActivity
             ListView productListView = (ListView)rootView.findViewById(R.id.artslist);
             productListView.setAdapter(mProductListAdapter);
 
-     //       updateProducts();
+            updateProducts();
 
             return rootView;
         }

@@ -66,10 +66,10 @@ public class DetailActivity extends ActionBarActivity
 
             Intent intent = getActivity().getIntent();      // 작품ID 받음
             if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                mArtsID = intent.getStringExtra(intent.EXTRA_TEXT);
-            //    ((TextView)rootView.findViewById(R.id.artsId))
-             //           .setText(mArtsID);
-         //       ((TextView)rootView.findViewById(R.id.artsId)).setText(mArtsID);
+                mArtsID = intent.getStringExtra(Intent.EXTRA_TEXT);
+//                ((TextView)rootView.findViewById(R.id.artsId))
+//                        .setText(mArtsID);
+//                ((TextView)rootView.findViewById(R.id.artsId)).setText(mArtsID);
             }
 
             //작품 갤러리 뷰
