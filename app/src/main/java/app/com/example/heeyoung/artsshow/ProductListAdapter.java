@@ -76,8 +76,8 @@ public class ProductListAdapter extends ArrayAdapter<Product>
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, "작품 디테일 호출 : " + product.prd_id, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("product", product);
+                Intent intent = new Intent(context, DetailActivity.class)
+                        .putExtra("product", product);
                 context.startActivity(intent);
             }
         });
@@ -86,7 +86,8 @@ public class ProductListAdapter extends ArrayAdapter<Product>
         holder.m_artist_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ProfileActivity.class);
+                Intent intent = new Intent(context, ProfileActivity.class)
+                        .putExtra("brand", product.brand);
                 context.startActivity(intent);
             }
         });

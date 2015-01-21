@@ -14,7 +14,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import app.com.example.heeyoung.artsshow.model.Brand;
 
 
 public class ProfileActivity extends ActionBarActivity {
@@ -65,7 +70,17 @@ public class ProfileActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-            ImageView img_artist = (ImageView)rootView.findViewById(R.id.p_artistView);
+            Intent intent = getActivity().getIntent();
+            Brand brand = intent.getParcelableExtra("brand");
+
+            Glide.with(getActivity()).load(brand.brand_image)
+                    .into((ImageView)rootView.findViewById(R.id.p_artistView));
+            ((TextView)rootView.findViewById(R.id.p_artistName)).setText(brand.brand_name);
+            ((TextView)rootView.findViewById(R.id.p_artistNation)).setText(brand.brand_country);
+            ((TextView)rootView.findViewById(R.id.p_artistUniv)).setText(brand.brand_info);
+            ((TextView)rootView.findViewById(R.id.p_email)).setText(brand.brand_info);
+            ((TextView)rootView.findViewById(R.id.p_phone)).setText(brand.brand_info);
+
             GridView grid = (GridView)rootView.findViewById(R.id.grid_arts);
 
             ImageAdapter adapter = new ImageAdapter(getActivity());
@@ -79,6 +94,7 @@ public class ProfileActivity extends ActionBarActivity {
                     //작품 ID값을 통해 작품 디테일Activity 호출
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
                   //         .putExtra(Intent.EXTRA_TEXT, 작품ID);
+
                     startActivity(intent);
                 }
             });
