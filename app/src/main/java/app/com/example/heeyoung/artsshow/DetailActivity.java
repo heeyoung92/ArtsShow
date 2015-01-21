@@ -2,11 +2,9 @@ package app.com.example.heeyoung.artsshow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,10 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 
 public class DetailActivity extends ActionBarActivity
@@ -96,39 +90,7 @@ public class DetailActivity extends ActionBarActivity
                 }
             });
 
-
-     //       updateProduct();
-
             return rootView;
-        }
-
-        private void updateProduct()
-        {
-            FetchProductTask productsTask = new FetchProductTask();
-            productsTask.execute("0");
-        }
-
-        private class FetchProductTask extends AsyncTask<String, Void, String[]>
-        {
-            OkHttpClient client = new OkHttpClient();
-
-            @Override
-            protected String[] doInBackground(String... params)
-            {
-                try {
-
-                    Request request = new Request.Builder()
-                            .url("http://arts.9cells.com/products/132435")
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    Log.d("From MainActivity", response.body().string());
-
-                } catch (Exception e) {
-
-                }
-
-                return null;
-            }
         }
     }
 }

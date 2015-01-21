@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity
 
                 try {
                     Request request = new Request.Builder()
-                            .url("http://arts.9cells.com/products/111/111")
+                            .url("http://arts.9cells.com/api1/products/recent/")
                             .build();
                     Response response = client.newCall(request).execute();
                     result = response.body().string();
