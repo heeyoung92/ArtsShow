@@ -13,22 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 
-public class DetailActivity extends ActionBarActivity {
-
+public class DetailActivity extends ActionBarActivity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
@@ -38,16 +32,17 @@ public class DetailActivity extends ActionBarActivity {
         }
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -61,60 +56,48 @@ public class DetailActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
+    public static class PlaceholderFragment extends Fragment
+    {
         private String mArtsID;
 
-        public PlaceholderFragment() {
-        }
-
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater,
+                                 ViewGroup container,
+                                 Bundle savedInstanceState)
+        {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-
             Intent intent = getActivity().getIntent();
-            if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-
+            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
                 mArtsID = intent.getStringExtra(intent.EXTRA_TEXT);
-                ((TextView)rootView.findViewById(R.id.artsId))
-                        .setText(mArtsID);
+                ((TextView)rootView.findViewById(R.id.artsId)).setText(mArtsID);
             }
 
-            updateProducts();
+            updateProduct();
 
             return rootView;
         }
 
-        private void updateProducts(){
-
-            FetchProductsTask productsTask = new FetchProductsTask();
-
+        private void updateProduct()
+        {
+            FetchProductTask productsTask = new FetchProductTask();
             productsTask.execute("0");
         }
 
+        private class FetchProductTask extends AsyncTask<String, Void, String[]>
+        {
+            OkHttpClient client = new OkHttpClient();
 
-        private class FetchProductsTask extends AsyncTask<String, Void, String[]> {
             @Override
-            protected String[] doInBackground(String... params) {
-
-                HttpClient httpClient = new DefaultHttpClient();
-
-                HttpGet httpGet = new HttpGet("http://arts.9cells.com/products/111/111");
-                HttpResponse response;
+            protected String[] doInBackground(String... params)
+            {
                 try {
-                    response = httpClient.execute(httpGet);
-                    HttpEntity entity = response.getEntity();
 
-                    if (entity != null) {
-                        InputStream inputStream = entity.getContent();
-                        String result = convertStreamToString(inputStream);
-                        Log.e("haha", result);
-                    }
+                    Request request = new Request.Builder()
+                            .url("http://arts.9cells.com/products/132435")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    Log.d("From MainActivity", response.body().string());
 
                 } catch (Exception e) {
 
@@ -122,29 +105,6 @@ public class DetailActivity extends ActionBarActivity {
 
                 return null;
             }
-
-            private String convertStreamToString(InputStream is) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                StringBuilder sb = new StringBuilder();
-
-                String line = null;
-                try {
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return sb.toString();
-            }
-
         }
-
     }
 }
