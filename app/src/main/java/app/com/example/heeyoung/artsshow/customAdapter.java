@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,7 +79,7 @@ public class customAdapter extends ArrayAdapter<ListItem> {
         final int pos = position;
         final Context context = parent.getContext();
 
-        ImageView Artist_img = null;
+        ImageButton Artist_img = null;
         TextView Artist_text = null;
         TextView Time = null;
         TextView Artist_na = null;
@@ -96,7 +97,7 @@ public class customAdapter extends ArrayAdapter<ListItem> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_item, parent, false);
 
-            Artist_img = (ImageView) convertView.findViewById(R.id.artistView);
+            Artist_img = (ImageButton)convertView.findViewById(R.id.artistView);
             Artist_text = (TextView) convertView.findViewById(R.id.artistName);
             Time = (TextView) convertView.findViewById(R.id.time);
             Artist_na = (TextView)convertView.findViewById(R.id.artistNation);
@@ -158,12 +159,11 @@ public class customAdapter extends ArrayAdapter<ListItem> {
                 }
         });
 
-            // 리스트 아이템을 터치 했을 때 이벤트 발생
-        convertView.setOnClickListener(new View.OnClickListener() {
-
+            // 작품이미지 터치시 이벤트 발생
+      Arts_img.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View v) {
-                // 터치 시 해당 아이템 이름 출력
                 Toast.makeText(context, "작품 디테일 호출 : " + m_List.get(pos).arts_ID, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(context, DetailActivity.class)
@@ -171,6 +171,21 @@ public class customAdapter extends ArrayAdapter<ListItem> {
                 context.startActivity(intent);
             }
         });
+
+
+        //작가 프로필 사진 클릭리스너
+        Artist_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+ //                       .putExtra(Intent.EXTRA_TEXT, m_List.get(pos).artist_ID);
+                context.startActivity(intent);
+            }
+        });
+
+
+
 /*
         // 리스트 아이템을 길게 터치 했을 떄 이벤트 발생
         convertView.setOnLongClickListener(new OnLongClickListener() {
