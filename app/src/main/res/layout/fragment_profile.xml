@@ -87,12 +87,11 @@
         android:verticalSpacing="4dip"
         android:horizontalSpacing="4dip"
         android:numColumns="auto_fit"
-        android:columnWidth="72dip"
+        android:columnWidth="140dip"
         android:stretchMode="columnWidth"
         android:gravity="center"
         >
-
-        </GridView>
+    </GridView>
 
 
 </LinearLayout>

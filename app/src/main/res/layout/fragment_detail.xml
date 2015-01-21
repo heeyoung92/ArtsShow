@@ -5,35 +5,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:layout_weight="1"
     tools:context="app.com.example.heeyoung.artsshow.DetailActivity$PlaceholderFragment">
 
-   <HorizontalScrollView
-       android:id="@+id/detail_artsimages"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal">
-           <ImageView
-               android:id="@+id/detail_arts1"
-               android:layout_width="200dip"
-               android:layout_height="200dip"
-               android:src="@drawable/image"/>
-           <ImageView
-               android:id="@+id/detail_arts2"
-               android:layout_width="200dip"
-               android:layout_height="200dip"
-               android:src="@drawable/image" />
-           <ImageView
-               android:id="@+id/detail_arts3"
-               android:layout_width="200dip"
-               android:layout_height="200dip"
-               android:src="@drawable/image"/>
-       </LinearLayout>
 
-       </HorizontalScrollView>
-
+    <Gallery
+        android:id="@+id/detail_arts_img"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.5"
+        android:spacing="5dip"
+        android:animationDuration ="1500"
+        />
     <TextView
         android:id="@+id/detail_arts_name"
         android:layout_width="wrap_content"

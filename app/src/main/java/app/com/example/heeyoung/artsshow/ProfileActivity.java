@@ -1,15 +1,20 @@
 package app.com.example.heeyoung.artsshow;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class ProfileActivity extends ActionBarActivity {
@@ -60,7 +65,79 @@ public class ProfileActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+            ImageView img_artist = (ImageView)rootView.findViewById(R.id.p_artistView);
+            GridView grid = (GridView)rootView.findViewById(R.id.grid_arts);
+
+            ImageAdapter adapter = new ImageAdapter(getActivity());
+            grid.setAdapter(adapter);
+
+            grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), position +"번째 그림 선택", Toast.LENGTH_SHORT).show();
+
+                    //작품 ID값을 통해 작품 디테일Activity 호출
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                  //         .putExtra(Intent.EXTRA_TEXT, 작품ID);
+                    startActivity(intent);
+                }
+            });
+
+            // 내 프로필일 경우 프로필 사진 클릭 시 편집화면
+           /* if(작가ID == 내ID) {
+                img_artist.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity(), "내 프로필 수정", Toast.LENGTH_SHORT).show();
+                        //profile 수정 Webview
+
+                    }
+                });
+             } */
+
             return rootView;
         }
     }
 }
+
+class ImageAdapter extends BaseAdapter {
+    private Context context;
+
+    //작품사진 (임시로 리소스이미지 번걸아가면서 출력//이미지크면에러)
+    int[] arts_picture = {
+            R.drawable.image,
+            R.drawable.arts_add
+    };
+
+    public ImageAdapter(Context c){
+        context = c;
+    }
+    public int getCount(){
+        return 100; //100개의 행렬 준비
+    }
+
+    public Object getItem(int position){
+        return arts_picture[position % 2];
+    }
+    public long getItemId(int position){
+        return position;
+    }
+    public View getView(int position, View convertView, ViewGroup parent){
+        ImageView imageView;
+        if(convertView == null){
+            imageView = new ImageView(context);
+            imageView.setLayoutParams(new GridView.LayoutParams(80, 60));
+            imageView.setAdjustViewBounds(false);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }else{
+            imageView = (ImageView) convertView;
+        }
+
+        imageView.setImageResource(arts_picture[position % 2]);
+        return imageView;
+
+    }
+}
+
