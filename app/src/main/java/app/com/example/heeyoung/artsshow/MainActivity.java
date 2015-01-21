@@ -35,6 +35,7 @@ public class MainActivity extends ActionBarActivity
                     .add(R.id.container,new PlaceholderFragment())
                     .commit();
         }
+
     }
 
     @Override
@@ -48,16 +49,18 @@ public class MainActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+     /*   if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
         if (id == R.id.action_profile) {
             //나의 프로필 보기
             Intent intent = new Intent(this, ProfileActivity.class);
             //+ 나의 ID 넘겨주기
             startActivity(intent);
-
-
+            return true;
+        }
+        if(id==R.id.action_add){
+            //작품추가 화면 띄우기
             return true;
         }
         return super.onOptionsItemSelected(item);
