@@ -87,7 +87,6 @@ public class DetailActivity extends ActionBarActivity {
 
             updateProducts();
 
-
             return rootView;
         }
 
