@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="app.com.example.heeyoung.artsshow.ProfileActivity$PlaceholderFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/group1">
+        <ImageView
+            android:id="@+id/p_artistView"
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:layout_marginLeft="20px"
+            android:src ="@drawable/ic_action_add"/>
+
+        <TextView
+            android:id="@+id/p_artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:text="작가명"
+
+            android:layout_toRightOf="@id/p_artistView"
+            />
+
+
+        <TextView
+            android:id="@+id/p_artistNation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Korea"
+
+            android:layout_alignLeft="@id/p_artistName"
+            android:layout_below="@id/p_artistName"
+            />
+
+        <TextView
+            android:id="@+id/p_slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = " / "
+
+            android:layout_below="@id/p_artistName"
+
+            android:layout_toRightOf="@id/p_artistNation"
+            />
+        <TextView
+            android:id="@+id/p_artistUniv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홍익대학교 도예유리과"
+            android:layout_below="@id/p_artistName"
+            android:layout_alignBaseline="@id/p_artistView"
+
+            android:layout_toRightOf="@id/p_slash"/>
+        <TextView
+            android:id="@+id/p_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="heeyoung@arts.show"
+            android:layout_alignLeft="@id/p_artistName"
+            android:layout_below="@id/p_artistNation"
+
+            android:layout_alignBaseline="@id/p_artistView"
+            />
+
+        <TextView
+            android:id="@+id/p_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="010-7777-7777"
+            android:layout_alignLeft="@id/p_artistName"
+            android:layout_below="@id/p_email"
+            />
+    </RelativeLayout>
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/grid_arts"
+        android:padding="2dip"
+        android:verticalSpacing="4dip"
+        android:horizontalSpacing="4dip"
+        android:numColumns="auto_fit"
+        android:columnWidth="72dip"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        >
+
+        </GridView>
+
+
+</LinearLayout>

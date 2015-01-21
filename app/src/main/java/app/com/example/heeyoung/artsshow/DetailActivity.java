@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -81,8 +80,8 @@ public class DetailActivity extends ActionBarActivity {
             if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
 
                 mArtsID = intent.getStringExtra(intent.EXTRA_TEXT);
-                ((TextView)rootView.findViewById(R.id.artsId))
-                        .setText(mArtsID);
+            //    ((TextView)rootView.findViewById(R.id.artsId))
+             //           .setText(mArtsID);
             }
 
             updateProducts();
