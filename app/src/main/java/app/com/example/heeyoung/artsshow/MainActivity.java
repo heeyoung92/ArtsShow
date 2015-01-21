@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -36,7 +39,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -44,21 +46,17 @@ public class MainActivity extends ActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public static class PlaceholderFragment extends Fragment
     {
+        private ArrayAdapter<ListItem> mProductListAdapter;
+
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container,
@@ -72,14 +70,14 @@ public class MainActivity extends ActionBarActivity
             productList.add(new ListItem(2, R.drawable.ic_action_add, "소고기",
                     "Korea", "홍익대학교 패션디자인", "5시간 전", R.drawable.ic_launcher, 3, "작품명4"));
 
-            customAdapter productListAdapter = new customAdapter(
+            mProductListAdapter = new customAdapter(
                     getActivity(),
                     android.R.layout.simple_list_item_1,
                     productList);
 
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             ListView productListView = (ListView)rootView.findViewById(R.id.artslist);
-            productListView.setAdapter(productListAdapter);
+            productListView.setAdapter(mProductListAdapter);
 
             updateProducts();
 
@@ -92,26 +90,42 @@ public class MainActivity extends ActionBarActivity
             productsTask.execute("0");
         }
 
-        private class FetchProductsTask extends AsyncTask<String, Void, String[]>
+        private class FetchProductsTask extends AsyncTask<String, Void, String>
         {
             OkHttpClient client = new OkHttpClient();
 
             @Override
-            protected String[] doInBackground(String... params)
+            protected String doInBackground(String... params)
             {
-                try {
+                String result = "";
 
+                try {
                     Request request = new Request.Builder()
                             .url("http://arts.9cells.com/products/111/111")
                             .build();
                     Response response = client.newCall(request).execute();
-                    Log.d("From MainActivity", response.body().string());
-
+                    result = response.body().string();
                 } catch (Exception e) {
-
+                    Log.e("error", e.getMessage());
                 }
 
-                return null;
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(String jsonString)
+            {
+                super.onPostExecute(jsonString);
+
+                if ( jsonString.length() > 0 ) {
+                    Gson gson = new GsonBuilder().create();
+                    ListItem[] items = gson.fromJson(jsonString, ListItem[].class);
+
+                    mProductListAdapter.clear();
+                    for(ListItem item : items) {
+                        mProductListAdapter.add(item);
+                    }
+                }
             }
         }
     }
