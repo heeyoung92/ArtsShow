@@ -31,7 +31,7 @@ class ListItem {
 
         arts_image = marts_image;
         like_num = mlike_num;
-        arts_name = marts_name;
+        prd_title = marts_name;
     }
 
     int arts_ID;
@@ -42,7 +42,7 @@ class ListItem {
     String time;
     int arts_image;
     int like_num;
-    String arts_name;
+    String prd_title;
 }
 
 public class customAdapter extends ArrayAdapter<ListItem> {
@@ -142,7 +142,7 @@ public class customAdapter extends ArrayAdapter<ListItem> {
         Artist_inf.setText(m_List.get(position).artist_info);
         Time.setText(m_List.get(position).time);
         Like.setText(String.valueOf(m_List.get(position).like_num));
-        Arts_text.setText(m_List.get(position).arts_name);
+        Arts_text.setText(m_List.get(position).prd_title);
 
         // 버튼을 터치 했을 때 이벤트 발생
         final TextView finalLike = Like;
