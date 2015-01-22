@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -43,8 +42,8 @@ import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity
 {
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+//    @InjectView(R.id.toolbar)
+//    Toolbar toolbar;
     @InjectView(R.id.tabs)
     PagerSlidingTabStrip tabs;
     @InjectView(R.id.pager)
