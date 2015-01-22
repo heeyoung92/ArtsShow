@@ -74,7 +74,7 @@ public class DetailActivity extends ActionBarActivity
 
             artsName.setText(product.prd_title);
             caption.setText(product.prd_desc);
-            gallery.setAdapter(new GalleryAdapter(
+            gallery.setAdapter(new ProductDetailAdapter(
                     getActivity(),
                     android.R.layout.simple_list_item_1,
                     product.images
@@ -82,41 +82,47 @@ public class DetailActivity extends ActionBarActivity
 
             // 사진 선택
             gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(getActivity(), position + "번째 그림 선택", Toast.LENGTH_SHORT).show();
                 }
             });
 
             return rootView;
         }
-    }
-}
 
-class GalleryAdapter extends ArrayAdapter<Image>
-{
-    public GalleryAdapter(Context context, int resource, Image[] objects)
-    {
-        super(context, resource, objects);
-    }
-
-    @SuppressWarnings("deprecation")
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        ImageView imageView;
-        if ( convertView == null ) {
-            imageView = new ImageView(getContext());
-        } else {
-            imageView = (ImageView)convertView;
+        @Override
+        public void onDestroyView()
+        {
+            super.onDestroyView();
+            ButterKnife.reset(this);
         }
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
-        imageView.setLayoutParams(new Gallery.LayoutParams(dm.widthPixels - 200, (dm.heightPixels / 2) - 150));  //이미지크기 화면크기에 반정도로!
+        static class ProductDetailAdapter extends ArrayAdapter<Image>
+        {
+            public ProductDetailAdapter(Context context, int resource, Image[] objects)
+            {
+                super(context, resource, objects);
+            }
 
-        Image image = getItem(position);
-        Glide.with(getContext()).load(image.url).into(imageView);
-        return imageView;
+            @SuppressWarnings("deprecation")
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
+                ImageView imageView;
+                if ( convertView == null ) {
+                    imageView = new ImageView(getContext());
+                } else {
+                    imageView = (ImageView)convertView;
+                }
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
+                imageView.setLayoutParams(new Gallery.LayoutParams(dm.widthPixels - 200, (dm.heightPixels / 2) - 150));  //이미지크기 화면크기에 반정도로!
+
+                Image image = getItem(position);
+                Glide.with(getContext()).load(image.url).into(imageView);
+                return imageView;
+            }
+        }
     }
 }
 

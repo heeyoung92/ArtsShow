@@ -1,7 +1,7 @@
 package app.com.example.heeyoung.artsshow;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -22,7 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
@@ -47,7 +50,7 @@ public class MainActivity extends ActionBarActivity
     @InjectView(R.id.tabs) PagerSlidingTabStrip tabs;
     @InjectView(R.id.pager) ViewPager pager;
 
-    private MyPagerAdapter adapter;
+    private MainTabAdapter adapter;
     private Drawable oldBackground = null;
     private int currentColor;
     private SystemBarTintManager mTintManager;
@@ -61,7 +64,7 @@ public class MainActivity extends ActionBarActivity
         setSupportActionBar(toolbar);
         mTintManager = new SystemBarTintManager(this);
         mTintManager.setStatusBarTintEnabled(true);
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
+        adapter = new MainTabAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         tabs.setViewPager(pager);
         final int pageMargin = (int)TypedValue.applyDimension(
@@ -72,7 +75,7 @@ public class MainActivity extends ActionBarActivity
         pager.setPageMargin(pageMargin);
         changeColor(getResources().getColor(R.color.green));
 
-        if (!Glide.isSetup()) {
+        if ( !Glide.isSetup() ) {
             // Glide 캐시 설정 https://github.com/bumptech/glide/wiki/Configuration
             // Disk 100MB, Mem 20MB
             Glide.setup(new GlideBuilder(this)
@@ -93,18 +96,24 @@ public class MainActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+
+        if ( id == R.id.action_settings ) {
             return true;
-        } else if (id == R.id.action_profile) {
+        }
+
+        if ( id == R.id.action_profile ) {
             //나의 프로필 보기
             Intent intent = new Intent(this, ProfileActivity.class);
             //+ 나의 ID 넘겨주기
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_add) {
+        }
+
+        if ( id == R.id.action_add ) {
             //작품추가 화면 띄우기
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -129,16 +138,74 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         outState.putInt("currentColor", currentColor);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
         super.onRestoreInstanceState(savedInstanceState);
         currentColor = savedInstanceState.getInt("currentColor");
         changeColor(currentColor);
+    }
+
+    class MainTabAdapter extends FragmentPagerAdapter
+    {
+        private final String[] TITLES = {
+                "최신순", "인기순"
+        };
+
+        public MainTabAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position)
+        {
+            return TITLES[position];
+        }
+
+        @Override
+        public int getCount() {
+            return TITLES.length;
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            ProductListFragment fragment = new ProductListFragment();
+            Bundle args = new Bundle();
+            if ( position == 0 ) {
+                args.putString("type", "recent");
+            } else if ( position == 1 ) {
+                args.putString("type", "popular");
+            }
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public void setPrimaryItem(ViewGroup container, int position, Object object)
+        {
+            super.setPrimaryItem(container, position, object);
+
+            int color = -1;
+            switch ( position ) {
+                case 0:
+                    color = R.color.green;
+                    break;
+                case 1:
+                    color = R.color.red;
+                    break;
+                default:
+                    color = R.color.green;
+                    break;
+            }
+
+            changeColor(getResources().getColor(color));
+        }
     }
 
     public static class ProductListFragment extends Fragment
@@ -146,26 +213,36 @@ public class MainActivity extends ActionBarActivity
         @InjectView(R.id.artslist) ListView productListView;
 
         private ArrayAdapter<Product> mProductListAdapter;
+        private int mOffset = 0;
 
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container,
                                  Bundle savedInstanceState)
         {
+            Bundle args = getArguments();
+
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.inject(this, rootView);
 
             mProductListAdapter = new ProductListAdapter(getActivity(), android.R.layout.simple_list_item_1);
             productListView.setAdapter(mProductListAdapter);
-            updateProducts();
+            updateProducts(args.getString("type"));
 
             return rootView;
         }
 
-        private void updateProducts()
+        @Override
+        public void onDestroyView()
+        {
+            super.onDestroyView();
+            ButterKnife.reset(this);
+        }
+
+        private void updateProducts(String type)
         {
             FetchProductsTask productsTask = new FetchProductsTask();
-            productsTask.execute("0");
+            productsTask.execute(type, new Integer(mOffset).toString());
         }
 
         private class FetchProductsTask extends AsyncTask<String, Void, String>
@@ -179,7 +256,7 @@ public class MainActivity extends ActionBarActivity
 
                 try {
                     Request request = new Request.Builder()
-                            .url("http://arts.9cells.com/api1/products/recent/")
+                            .url("http://arts.9cells.com/api1/products/" + params[0] + "/offset/" + params[1])
                             .build();
                     Response response = client.newCall(request).execute();
                     result = response.body().string();
@@ -206,42 +283,108 @@ public class MainActivity extends ActionBarActivity
                 }
             }
         }
-    }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-        private final String[] TITLES = {
-                "최신순", "인기순"
-        };
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TITLES[position];
-
-        }
-
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return new ProductListFragment();
-        }
-
-        public void setPrimaryItem(ViewGroup container, int position, Object object)
+        static class ProductListAdapter extends ArrayAdapter<Product>
         {
-            super.setPrimaryItem(container, position, object);
+            int mCheck = 0; //(임시)좋아요 체크 여부 -> DB저장 필요
 
-            if ( position == 0 ) {
-                changeColor(getResources().getColor(R.color.green));
-            } else if ( position == 1 ) {
-                changeColor(Color.parseColor("#FFC74B46"));
+            public ProductListAdapter(Context context, int resource)
+            {
+                super(context, resource);
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
+                final Context context = parent.getContext();
+                ViewHolder viewholder;
+                if ( convertView != null ) {
+                    viewholder = (ViewHolder)convertView.getTag();
+                } else {
+                    LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = inflater.inflate(R.layout.custom_item, parent, false);
+                    viewholder = new ViewHolder(convertView);
+                    convertView.setTag(viewholder);
+                }
+
+                final Product product = getItem(position);
+                final ViewHolder holder = viewholder;
+
+                Glide.with(context).load(product.brand.brand_image).into(holder.m_artist_img);
+                holder.m_artist_name.setText(product.brand.brand_name);
+                holder.m_artist_na.setText(product.brand.brand_country);
+                holder.m_artist_inf.setText(product.brand.brand_info);
+                holder.m_time.setText(product.updated_at);
+                Glide.with(context).load(product.images[0].url).into(holder.m_arts_img);
+                holder.m_arts_text.setText(product.prd_title);
+                holder.m_like.setText(String.valueOf(product.prd_num_likes));
+
+                // like 버튼 클릭 리스너
+                holder.m_Btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if ( mCheck == 0 ) {
+                            // 클릭 시 해당 아이템 좋아요 +1
+                            product.prd_num_likes++;
+                            holder.m_Btn.setBackgroundResource(R.drawable.click);
+                            mCheck = 1;
+                        } else {
+                            product.prd_num_likes--;
+                            holder.m_Btn.setBackgroundResource(R.drawable.notclick);
+                            mCheck = 0;
+                        }
+
+                        holder.m_like.setText(String.valueOf(product.prd_num_likes));
+
+                        // + LIKE 수 DB에 저장
+
+                        //Toast.makeText(context, "+1", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // 작품 사진 클릭 리스너
+                holder.m_arts_img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(context, "작품 디테일 호출 : " + product.prd_id, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, DetailActivity.class)
+                                .putExtra("product", product);
+                        context.startActivity(intent);
+                    }
+                });
+
+                // 프로필 사진 클릭 리스너
+                holder.m_artist_img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ProfileActivity.class)
+                                .putExtra("brand", product.brand);
+                        context.startActivity(intent);
+                    }
+                });
+
+                return convertView;
+            }
+
+            static class ViewHolder
+            {
+                @InjectView(R.id.artistName)
+                TextView m_artist_name;
+                @InjectView(R.id.button_like)
+                ImageButton m_Btn;
+                @InjectView(R.id.artistView)
+                ImageView m_artist_img;
+                @InjectView(R.id.time) TextView m_time;
+                @InjectView(R.id.artistNation) TextView m_artist_na;
+                @InjectView(R.id.artistUniv) TextView m_artist_inf;
+                @InjectView(R.id.arts_image) ImageView m_arts_img;
+                @InjectView(R.id.like_num) TextView m_like;
+                @InjectView(R.id.arts_name) TextView m_arts_text;
+
+                public ViewHolder(View view)
+                {
+                    ButterKnife.inject(this, view);
+                }
             }
         }
     }

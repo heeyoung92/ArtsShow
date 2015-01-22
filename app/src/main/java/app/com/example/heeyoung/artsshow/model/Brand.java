@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Brand implements Parcelable
 {
-    public int brand_id;
+    public String brand_id;
     public String brand_name;
     public String brand_country;
     public String brand_info;
@@ -18,7 +18,7 @@ public class Brand implements Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(brand_id);
+        dest.writeString(brand_id);
         dest.writeString(brand_name);
         dest.writeString(brand_country);
         dest.writeString(brand_info);
@@ -27,7 +27,7 @@ public class Brand implements Parcelable
 
     private Brand(Parcel in) {
 
-        brand_id = in.readInt();
+        brand_id = in.readString();
         brand_name = in.readString();
         brand_country = in.readString();
         brand_info = in.readString();

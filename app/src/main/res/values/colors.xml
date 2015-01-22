@@ -2,6 +2,7 @@
 <resources>
     <color name="background_window">#FFE5E5E5</color>
     <color name="green">#689F38</color>
+    <color name="red">#FFC74B46</color>
     <color name="greenDark">#3E5F22</color>
     <color name="banana">#FFCC00</color>
 </resources>
