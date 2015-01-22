@@ -29,46 +29,44 @@ public class ProductListAdapter extends ArrayAdapter<Product>
     public View getView(int position, View convertView, ViewGroup parent)
     {
         final Context context = parent.getContext();
-        ViewHolder holder;
+        ViewHolder viewholder;
         if ( convertView != null ) {
-            holder = (ViewHolder)convertView.getTag();
+            viewholder = (ViewHolder)convertView.getTag();
         } else {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_item, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
+            viewholder = new ViewHolder(convertView);
+            convertView.setTag(viewholder);
         }
 
         final Product product = getItem(position);
+        final ViewHolder holder = viewholder;
 
         Glide.with(context).load(product.brand.brand_image).into(holder.m_artist_img);
         holder.m_artist_name.setText(product.brand.brand_name);
         holder.m_artist_na.setText(product.brand.brand_country);
         holder.m_artist_inf.setText(product.brand.brand_info);
         holder.m_time.setText(product.updated_at);
-
         Glide.with(context).load(product.images[0].url).into(holder.m_arts_img);
         holder.m_arts_text.setText(product.prd_title);
         holder.m_like.setText(String.valueOf(product.prd_num_likes));
 
         // like 버튼 클릭 리스너
-        final TextView finalLike = holder.m_like;
-        final ViewHolder finalHolder = holder;
         holder.m_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ( mCheck == 0 ) {
                     // 클릭 시 해당 아이템 좋아요 +1
                     product.prd_num_likes++;
-                    finalHolder.m_Btn.setBackgroundResource(R.drawable.click);
+                    holder.m_Btn.setBackgroundResource(R.drawable.click);
                     mCheck = 1;
                 } else {
                     product.prd_num_likes--;
-                    finalHolder.m_Btn.setBackgroundResource(R.drawable.notclick);
+                    holder.m_Btn.setBackgroundResource(R.drawable.notclick);
                     mCheck = 0;
                 }
 
-                finalLike.setText(String.valueOf(product.prd_num_likes));
+                holder.m_like.setText(String.valueOf(product.prd_num_likes));
 
                 // + LIKE 수 DB에 저장
 
