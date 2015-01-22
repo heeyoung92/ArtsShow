@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
@@ -76,7 +75,7 @@ public class MainActivity extends ActionBarActivity
         tabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
             @Override
             public void onTabReselected(int position) {
-                Toast.makeText(MainActivity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -134,11 +133,6 @@ public class MainActivity extends ActionBarActivity
 
         oldBackground = ld;
         currentColor = newColor;
-    }
-
-    public void onColorClicked(View v) {
-        int color = Color.parseColor(v.getTag().toString());
-        changeColor(color);
     }
 
     @Override
@@ -232,6 +226,7 @@ public class MainActivity extends ActionBarActivity
         @Override
         public CharSequence getPageTitle(int position) {
             return TITLES[position];
+
         }
 
         @Override
@@ -242,6 +237,17 @@ public class MainActivity extends ActionBarActivity
         @Override
         public Fragment getItem(int position) {
             return new ProductListFragment();
+        }
+
+        public void setPrimaryItem(ViewGroup container, int position, Object object)
+        {
+            super.setPrimaryItem(container, position, object);
+
+            if ( position == 0 ) {
+                changeColor(getResources().getColor(R.color.green));
+            } else if ( position == 1 ) {
+                changeColor(Color.parseColor("#FFC74B46"));
+            }
         }
     }
 }
