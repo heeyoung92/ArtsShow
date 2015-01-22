@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -107,7 +108,9 @@ class galleryAdapter extends ArrayAdapter<Image>
             imageView = (ImageView)convertView;
         }
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setLayoutParams(new Gallery.LayoutParams(136, 88));
+
+        DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
+        imageView.setLayoutParams(new Gallery.LayoutParams(dm.widthPixels-100, (dm.heightPixels/2)-100));  //이미지크기 화면크기에 반정도로!
 
         Image image = getItem(position);
         Glide.with(getContext()).load(image.url).into(imageView);
