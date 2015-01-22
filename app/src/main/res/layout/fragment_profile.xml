@@ -10,21 +10,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/group1">
+        android:layout_marginBottom="10dp"
+        >
         <ImageView
             android:id="@+id/p_artistView"
             android:layout_width="80dip"
             android:layout_height="80dip"
-            android:layout_marginLeft="20px"
+
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop"
             android:src ="@drawable/ic_action_add"/>
 
         <TextView
             android:id="@+id/p_artistName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
-            android:text="작가명"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
 
+            android:text="작가명"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_alignTop="@id/artistView"
             android:layout_toRightOf="@id/p_artistView"
             />
 
@@ -63,10 +71,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="heeyoung@arts.show"
+            android:layout_marginTop="0.5dp"
+
             android:layout_alignLeft="@id/p_artistName"
             android:layout_below="@id/p_artistNation"
+            android:textSize="11sp"
 
-            android:layout_alignBaseline="@id/p_artistView"
             />
 
         <TextView
@@ -75,6 +85,9 @@
             android:layout_height="wrap_content"
             android:text="010-7777-7777"
             android:layout_alignLeft="@id/p_artistName"
+            android:textSize="11sp"
+            android:layout_marginTop="0.5dp"
+
             android:layout_below="@id/p_email"
             />
     </RelativeLayout>
@@ -84,11 +97,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/grid_arts"
         android:padding="2dip"
-        android:verticalSpacing="4dip"
-        android:horizontalSpacing="4dip"
+        android:verticalSpacing="10dip"
+        android:horizontalSpacing="10dip"
         android:numColumns="auto_fit"
-        android:columnWidth="140dip"
-        android:stretchMode="columnWidth"
         android:gravity="center"
         >
     </GridView>

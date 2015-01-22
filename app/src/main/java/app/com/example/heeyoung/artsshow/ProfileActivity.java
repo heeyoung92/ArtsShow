@@ -131,7 +131,7 @@ class ImageAdapter extends BaseAdapter {
     }
     public int getCount(){
 
-        return 100; //100개의 행렬 준비
+        return 10; //10개의 작품
     }
 
     public Object getItem(int position){
@@ -144,9 +144,9 @@ class ImageAdapter extends BaseAdapter {
         ImageView imageView;
         if(convertView == null){
             imageView = new ImageView(context);
-            imageView.setLayoutParams(new GridView.LayoutParams(80, 60));
+            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
             imageView.setAdjustViewBounds(false);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }else{
             imageView = (ImageView) convertView;
         }
