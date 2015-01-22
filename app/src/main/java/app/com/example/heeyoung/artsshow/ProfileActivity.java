@@ -130,6 +130,7 @@ class ImageAdapter extends BaseAdapter {
         context = c;
     }
     public int getCount(){
+
         return 100; //100개의 행렬 준비
     }
 

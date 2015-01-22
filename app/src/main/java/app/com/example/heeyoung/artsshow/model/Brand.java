@@ -26,11 +26,13 @@ public class Brand implements Parcelable
     }
 
     private Brand(Parcel in) {
+
         brand_id = in.readInt();
         brand_name = in.readString();
         brand_country = in.readString();
         brand_info = in.readString();
         brand_image = in.readString();
+
     }
 
     public static final Parcelable.Creator<Brand> CREATOR
@@ -38,6 +40,7 @@ public class Brand implements Parcelable
         public Brand createFromParcel(Parcel in) {
             return new Brand(in);
         }
+
 
         public Brand[] newArray(int size) {
             return new Brand[size];

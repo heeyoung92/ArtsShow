@@ -74,6 +74,7 @@ public class DetailActivity extends ActionBarActivity
             Gallery gal =(Gallery)rootView.findViewById(R.id.detail_arts_img);
             gal.setAdapter(new galleryAdapter(getActivity(), android.R.layout.simple_list_item_1, product.images));
 
+
             // 사진 선택
             gal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -84,6 +85,7 @@ public class DetailActivity extends ActionBarActivity
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
+
             });
 
             return rootView;
