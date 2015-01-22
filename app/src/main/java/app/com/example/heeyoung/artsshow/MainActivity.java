@@ -1,6 +1,7 @@
 package app.com.example.heeyoung.artsshow;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -42,8 +44,8 @@ import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity
 {
-//    @InjectView(R.id.toolbar)
-//    Toolbar toolbar;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
     @InjectView(R.id.tabs)
     PagerSlidingTabStrip tabs;
     @InjectView(R.id.pager)
@@ -60,10 +62,8 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-//        setSupportActionBar(toolbar);
-        // create our manager instance after the content view is set
+        setSupportActionBar(toolbar);
         mTintManager = new SystemBarTintManager(this);
-        // enable status bar tint
         mTintManager.setStatusBarTintEnabled(true);
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
@@ -79,14 +79,6 @@ public class MainActivity extends ActionBarActivity
                 Toast.makeText(MainActivity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ProductListFragment())
-                    .commit();
-        }
-        */
 
         // Glide 캐시 설정 https://github.com/bumptech/glide/wiki/Configuration
         // Disk 100MB, Mem 20MB
@@ -142,6 +134,24 @@ public class MainActivity extends ActionBarActivity
 
         oldBackground = ld;
         currentColor = newColor;
+    }
+
+    public void onColorClicked(View v) {
+        int color = Color.parseColor(v.getTag().toString());
+        changeColor(color);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentColor", currentColor);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        currentColor = savedInstanceState.getInt("currentColor");
+        changeColor(currentColor);
     }
 
     public static class ProductListFragment extends Fragment
