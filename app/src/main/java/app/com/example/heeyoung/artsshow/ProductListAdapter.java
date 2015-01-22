@@ -20,6 +20,7 @@ public class ProductListAdapter extends ArrayAdapter<Product>
     {
         super(context, resource);
     }
+    int m_check = 0; //(임시)좋아요 체크 여부 -> DB저장 필요
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
@@ -61,12 +62,25 @@ public class ProductListAdapter extends ArrayAdapter<Product>
 
         // like 버튼 클릭 리스너
         final TextView finalLike = holder.m_like;
+        final ViewHolder finalHolder = holder;
         holder.m_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 터치 시 해당 아이템 좋아요 +1
-                product.prd_num_likes++;
+                  if(m_check == 0) {
+                    // 클릭 시 해당 아이템 좋아요 +1
+                     product.prd_num_likes++;
+                     finalHolder.m_Btn.setText("V"); // 이미지로 변경 필요
+                     m_check = 1;
+                  }else{
+                    product.prd_num_likes--;
+                    finalHolder.m_Btn.setText("-");
+                    m_check = 0;
+                  }
+
                 finalLike.setText(String.valueOf(product.prd_num_likes));
+
+                // + LIKE 수 DB에 저장
+
                 //Toast.makeText(context, "+1", Toast.LENGTH_SHORT).show();
             }
         });
