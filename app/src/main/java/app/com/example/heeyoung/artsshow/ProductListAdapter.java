@@ -100,7 +100,7 @@ public class ProductListAdapter extends ArrayAdapter<Product>
         return convertView;
     }
 
-    private static class ViewHolder
+    static class ViewHolder
     {
         @InjectView(R.id.artistName) TextView m_artist_name;
         @InjectView(R.id.button_like) ImageButton m_Btn;
