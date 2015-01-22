@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,7 +43,7 @@ public class ProductListAdapter extends ArrayAdapter<Product>
             holder.m_arts_img = (ImageView)convertView.findViewById(R.id.arts_image);
             holder.m_arts_text = (TextView)convertView.findViewById(R.id.arts_name);
             holder.m_like = (TextView)convertView.findViewById(R.id.like_num);
-            holder.m_Btn = (Button)convertView.findViewById(R.id.button_like);
+            holder.m_Btn = (ImageButton)convertView.findViewById(R.id.button_like);
         } else {
             holder = (ViewHolder)convertView.getTag();
         }
@@ -69,11 +69,11 @@ public class ProductListAdapter extends ArrayAdapter<Product>
                   if(m_check == 0) {
                     // 클릭 시 해당 아이템 좋아요 +1
                      product.prd_num_likes++;
-                     finalHolder.m_Btn.setText("V"); // 이미지로 변경 필요
+                     finalHolder.m_Btn.setBackgroundResource(R.drawable.click);
                      m_check = 1;
                   }else{
                     product.prd_num_likes--;
-                    finalHolder.m_Btn.setText("-");
+                    finalHolder.m_Btn.setBackgroundResource(R.drawable.notclick);
                     m_check = 0;
                   }
 
@@ -112,7 +112,7 @@ public class ProductListAdapter extends ArrayAdapter<Product>
     private static class ViewHolder
     {
         TextView m_artist_name;
-        Button m_Btn;
+        ImageButton m_Btn;
         ImageView m_artist_img;
         TextView m_time;
         TextView m_artist_na;

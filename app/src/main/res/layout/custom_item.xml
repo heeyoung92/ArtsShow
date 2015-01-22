@@ -7,20 +7,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/group1">
+
         <ImageButton
             android:id="@+id/artistView"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
+            android:layout_width="55dip"
+            android:layout_height="55dip"
             android:layout_marginLeft="20px"
-            android:src ="@drawable/ic_action_add"  />
+            android:layout_marginRight="20px"
+            android:src ="@drawable/ic_action_add"
+            android:background="#00000000"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/artistName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
 
+            android:text="작가명"
+            android:textStyle="bold"
+            android:textSize="15sp"
             android:layout_toRightOf="@id/artistView"
         />
 
@@ -29,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1시간 전"
+            android:textSize="12sp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20px"
            />
@@ -69,36 +79,55 @@
 
     <ImageView
         android:id="@+id/arts_image"
-        android:layout_width="200dip"
-        android:layout_height="180dip"
-        android:layout_gravity="center"/>
+        android:layout_width="240dip"
+        android:layout_height="185dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+
+        android:scaleType="centerInside"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp">
+        <ImageButton
             android:id="@+id/button_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Like"  />
+            android:src="@drawable/notclick"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:background="#00000000"
+            android:scaleType="fitXY"
+        />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
             android:text=" + "/>
 
         <TextView
             android:id="@+id/like_num"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+
             android:text="0"/>
 
         <TextView
             android:id="@+id/arts_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+
             android:text="작품명"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginRight="10px"/>
 
     </LinearLayout>
 

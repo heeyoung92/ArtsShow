@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:layout_weight="1"
-    android:background="#000000"
+    android:background="#030303"
     tools:context="app.com.example.heeyoung.artsshow.DetailActivity.ProductDetailFragment">
 
 
@@ -14,7 +14,7 @@
         android:id="@+id/detail_arts_img"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="0.5"
+        android:layout_weight="0.4"
         android:spacing="5dip"
         android:animationDuration ="1500"
         />
@@ -23,6 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="작품명"
+        android:textStyle="bold"
+
+        android:layout_marginBottom="10dp"
         android:textColor="#FFFFF0"
         android:layout_gravity="center_horizontal"
 
@@ -32,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="작품 설명이 없습니다."
+        android:layout_marginBottom="15dp"
         android:textColor="#FFFFF0"
         android:layout_gravity="center_horizontal"/>
     <TextView
@@ -40,6 +44,9 @@
         android:layout_height="wrap_content"
         android:text="0원"
         android:textColor="#FFFFF0"
+
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
 
         android:layout_gravity="bottom|right"/>
 </LinearLayout>

@@ -109,10 +109,10 @@ class galleryAdapter extends ArrayAdapter<Image>
         } else {
             imageView = (ImageView)convertView;
         }
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
-        imageView.setLayoutParams(new Gallery.LayoutParams(dm.widthPixels-100, (dm.heightPixels/2)-100));  //이미지크기 화면크기에 반정도로!
+        imageView.setLayoutParams(new Gallery.LayoutParams(dm.widthPixels-200, (dm.heightPixels/2)-150));  //이미지크기 화면크기에 반정도로!
 
         Image image = getItem(position);
         Glide.with(getContext()).load(image.url).into(imageView);
