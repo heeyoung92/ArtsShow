@@ -93,7 +93,7 @@ public class ProfileActivity extends ActionBarActivity {
 
                     //작품 ID값을 통해 작품 디테일Activity 호출
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
-                  //         .putExtra(Intent.EXTRA_TEXT, 작품ID);
+                                    // .putExtra("product", product);
 
                     startActivity(intent);
                 }
