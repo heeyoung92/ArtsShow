@@ -13,39 +13,30 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import app.com.example.heeyoung.artsshow.model.Product;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class ProductListAdapter extends ArrayAdapter<Product>
 {
+    int mCheck = 0; //(임시)좋아요 체크 여부 -> DB저장 필요
+
     public ProductListAdapter(Context context, int resource)
     {
         super(context, resource);
     }
-    int m_check = 0; //(임시)좋아요 체크 여부 -> DB저장 필요
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
         final Context context = parent.getContext();
-        ViewHolder holder = null;
-
-        if ( convertView == null ) {
+        ViewHolder holder;
+        if ( convertView != null ) {
+            holder = (ViewHolder)convertView.getTag();
+        } else {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_item, parent, false);
-
-            holder = new ViewHolder();
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-
-            holder.m_artist_img = (ImageView)convertView.findViewById(R.id.artistView);
-            holder.m_artist_name = (TextView)convertView.findViewById(R.id.artistName);
-            holder.m_artist_na = (TextView)convertView.findViewById(R.id.artistNation);
-            holder.m_artist_inf = (TextView)convertView.findViewById(R.id.artistUniv);
-            holder.m_time = (TextView)convertView.findViewById(R.id.time);
-            holder.m_arts_img = (ImageView)convertView.findViewById(R.id.arts_image);
-            holder.m_arts_text = (TextView)convertView.findViewById(R.id.arts_name);
-            holder.m_like = (TextView)convertView.findViewById(R.id.like_num);
-            holder.m_Btn = (ImageButton)convertView.findViewById(R.id.button_like);
-        } else {
-            holder = (ViewHolder)convertView.getTag();
         }
 
         final Product product = getItem(position);
@@ -66,16 +57,16 @@ public class ProductListAdapter extends ArrayAdapter<Product>
         holder.m_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  if(m_check == 0) {
+                if ( mCheck == 0 ) {
                     // 클릭 시 해당 아이템 좋아요 +1
-                     product.prd_num_likes++;
-                     finalHolder.m_Btn.setBackgroundResource(R.drawable.click);
-                     m_check = 1;
-                  }else{
+                    product.prd_num_likes++;
+                    finalHolder.m_Btn.setBackgroundResource(R.drawable.click);
+                    mCheck = 1;
+                } else {
                     product.prd_num_likes--;
                     finalHolder.m_Btn.setBackgroundResource(R.drawable.notclick);
-                    m_check = 0;
-                  }
+                    mCheck = 0;
+                }
 
                 finalLike.setText(String.valueOf(product.prd_num_likes));
 
@@ -111,14 +102,19 @@ public class ProductListAdapter extends ArrayAdapter<Product>
 
     private static class ViewHolder
     {
-        TextView m_artist_name;
-        ImageButton m_Btn;
-        ImageView m_artist_img;
-        TextView m_time;
-        TextView m_artist_na;
-        TextView m_artist_inf;
-        ImageView m_arts_img;
-        TextView m_like;
-        TextView m_arts_text;
+        @InjectView(R.id.artistName) TextView m_artist_name;
+        @InjectView(R.id.button_like) ImageButton m_Btn;
+        @InjectView(R.id.artistView) ImageView m_artist_img;
+        @InjectView(R.id.time) TextView m_time;
+        @InjectView(R.id.artistNation) TextView m_artist_na;
+        @InjectView(R.id.artistUniv) TextView m_artist_inf;
+        @InjectView(R.id.arts_image) ImageView m_arts_img;
+        @InjectView(R.id.like_num) TextView m_like;
+        @InjectView(R.id.arts_name) TextView m_arts_text;
+
+        public ViewHolder(View view)
+        {
+            ButterKnife.inject(this, view);
+        }
     }
 }

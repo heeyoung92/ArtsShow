@@ -43,12 +43,9 @@ import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity
 {
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
-    @InjectView(R.id.tabs)
-    PagerSlidingTabStrip tabs;
-    @InjectView(R.id.pager)
-    ViewPager pager;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.tabs) PagerSlidingTabStrip tabs;
+    @InjectView(R.id.pager) ViewPager pager;
 
     private MyPagerAdapter adapter;
     private Drawable oldBackground = null;
@@ -67,21 +64,17 @@ public class MainActivity extends ActionBarActivity
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         tabs.setViewPager(pager);
-        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-                .getDisplayMetrics());
+        final int pageMargin = (int)TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                4,
+                getResources().getDisplayMetrics()
+        );
         pager.setPageMargin(pageMargin);
         changeColor(getResources().getColor(R.color.green));
 
-        tabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
-            @Override
-            public void onTabReselected(int position) {
-                //Toast.makeText(MainActivity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Glide 캐시 설정 https://github.com/bumptech/glide/wiki/Configuration
-        // Disk 100MB, Mem 20MB
         if (!Glide.isSetup()) {
+            // Glide 캐시 설정 https://github.com/bumptech/glide/wiki/Configuration
+            // Disk 100MB, Mem 20MB
             Glide.setup(new GlideBuilder(this)
                     .setDiskCache(DiskLruCacheWrapper.get(Glide.getPhotoCacheDir(this), 100000000))
                     .setMemoryCache(new LruResourceCache(20000000))
@@ -150,6 +143,8 @@ public class MainActivity extends ActionBarActivity
 
     public static class ProductListFragment extends Fragment
     {
+        @InjectView(R.id.artslist) ListView productListView;
+
         private ArrayAdapter<Product> mProductListAdapter;
 
         @Override
@@ -158,9 +153,9 @@ public class MainActivity extends ActionBarActivity
                                  Bundle savedInstanceState)
         {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            ButterKnife.inject(this, rootView);
 
             mProductListAdapter = new ProductListAdapter(getActivity(), android.R.layout.simple_list_item_1);
-            ListView productListView = (ListView)rootView.findViewById(R.id.artslist);
             productListView.setAdapter(mProductListAdapter);
             updateProducts();
 
