@@ -103,18 +103,10 @@ public class ProfileActivity extends ActionBarActivity
             gridArts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-<<<<<<< HEAD
-                        Toast.makeText(getActivity(), position +"번째 그림 선택", Toast.LENGTH_SHORT).show();
 
-                    //작품 ID값을 통해 작품 디테일Activity 호출
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                                    // .putExtra("product", product);
-
-=======
                     Product product = mImageAdapter.getItem(position);
                     Intent intent = new Intent(getActivity(), DetailActivity.class)
                             .putExtra("product", product);
->>>>>>> b6593cf9ae121da03d9e544dd8b2bf5fd263dfb5
                     startActivity(intent);
                 }
             });
