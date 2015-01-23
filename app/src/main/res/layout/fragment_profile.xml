@@ -97,8 +97,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/grid_arts"
         android:padding="2dip"
-        android:verticalSpacing="10dip"
-        android:horizontalSpacing="10dip"
+        android:verticalSpacing="5dip"
+        android:horizontalSpacing="5dip"
         android:numColumns="auto_fit"
         android:gravity="center"
         >

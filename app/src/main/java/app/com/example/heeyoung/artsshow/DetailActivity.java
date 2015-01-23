@@ -3,6 +3,7 @@ package app.com.example.heeyoung.artsshow;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -37,6 +38,9 @@ public class DetailActivity extends ActionBarActivity
                     .add(R.id.container, new ProductDetailFragment())
                     .commit();
         }
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -50,8 +54,8 @@ public class DetailActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
-        if ( id == R.id.action_back ) {
-               finish();
+        if(id==android.R.id.home) {
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

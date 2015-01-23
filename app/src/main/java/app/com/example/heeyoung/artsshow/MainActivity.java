@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
@@ -103,9 +104,12 @@ public class MainActivity extends ActionBarActivity
 
         if ( id == R.id.action_profile ) {
             //나의 프로필 보기
+            Toast.makeText(MainActivity.this, "로그인 정보가 필요합니다.", Toast.LENGTH_SHORT).show();
+
+            /*
             Intent intent = new Intent(this, ProfileActivity.class);
             //+ 나의 ID 넘겨주기
-            startActivity(intent);
+            startActivity(intent); */
             return true;
         }
 
@@ -157,7 +161,7 @@ public class MainActivity extends ActionBarActivity
     class MainTabAdapter extends FragmentPagerAdapter
     {
         private final String[] TITLES = {
-                "최신순", "인기순"
+                " 최신순 ", " 인기순 "
         };
 
         public MainTabAdapter(FragmentManager fm) {
