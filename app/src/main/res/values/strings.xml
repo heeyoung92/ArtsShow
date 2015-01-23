@@ -8,5 +8,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_detail"> 작품 상세 보기</string>
     <string name="title_activity_profile">프로필</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_arts_register">ArtsRegisterActivity</string>
 
 </resources>
