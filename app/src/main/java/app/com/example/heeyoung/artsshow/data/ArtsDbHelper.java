@@ -44,9 +44,9 @@ public class ArtsDbHelper extends SQLiteOpenHelper {
                 ImageEntry.COLUMN_IMAGE_URL + "TEXT NOT NULL, " +
                 ImageEntry.COLUMN_BRAND_KEY + "TEXT NOT NULL);";
 
-//        sqLiteDatabase.execSQL(SQL_CREATE_BRAND_TABLE);
+ //       db.execSQL(SQL_CREATE_PRODUCT_TABLE);
+ //       db.execSQL(SQL_);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

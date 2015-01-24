@@ -116,10 +116,10 @@ public class MainActivity extends ActionBarActivity
         if ( id == R.id.action_add ) {
             //작품추가 화면 띄우기
 
-            Toast.makeText(MainActivity.this, " 준비중입니다.", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(MainActivity.this, " 준비중입니다.", Toast.LENGTH_SHORT).show();
 
-            //    Intent intent = new Intent(this, ArtsRegisterActivity.class);
-       //     startActivity(intent);
+              Intent intent = new Intent(this, ArtsRegisterActivity.class);
+             startActivity(intent);
             return true;
         }
 
