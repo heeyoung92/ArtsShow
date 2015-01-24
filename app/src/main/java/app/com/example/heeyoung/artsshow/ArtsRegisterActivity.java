@@ -20,7 +20,7 @@ public class ArtsRegisterActivity extends Activity {
 
         mWebView.getSettings().setJavaScriptEnabled(true);  //자바스크립트 허용
         mWebView.setVerticalScrollbarOverlay(true);        // 스크롤 공백 없애기
-        mWebView.loadUrl("http://engca.co.kr/habit/listview2.php");  //임시URL..
+        mWebView.loadUrl("http://arts.9cells.com/products/add/form");  //임시URL..
 
     }
 
