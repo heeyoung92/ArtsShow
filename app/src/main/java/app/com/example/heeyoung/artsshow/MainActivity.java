@@ -254,6 +254,14 @@ public class MainActivity extends ActionBarActivity
             productsTask.execute(type, new Integer(mOffset).toString());
         }
 
+        @Override
+        public void onResume()
+        {
+            super.onResume();
+            Bundle args = getArguments();
+            updateProducts(args.getString("type"));
+        }
+
         private class FetchProductsTask extends AsyncTask<String, Void, String>
         {
             OkHttpClient client = new OkHttpClient();
