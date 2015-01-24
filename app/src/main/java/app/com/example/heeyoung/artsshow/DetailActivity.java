@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -28,6 +27,8 @@ import butterknife.InjectView;
 
 public class DetailActivity extends ActionBarActivity
 {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -38,7 +39,13 @@ public class DetailActivity extends ActionBarActivity
                     .add(R.id.container, new ProductDetailFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
+
+    //   getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY); //액션바 투명하게
+         ActionBar actionBar = getSupportActionBar();
+
+ //      actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
+ //      actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#550000ff")));
+
         actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
@@ -64,6 +71,7 @@ public class DetailActivity extends ActionBarActivity
     {
         @InjectView(R.id.detail_arts_name) TextView artsName;
         @InjectView(R.id.detail_caption) TextView caption;
+        @InjectView(R.id.detail_price) TextView price;
         @InjectView(R.id.detail_arts_img) Gallery gallery;
 
         @Override
@@ -78,6 +86,8 @@ public class DetailActivity extends ActionBarActivity
 
             artsName.setText(product.prd_title);
             caption.setText(product.prd_desc);
+            price.setText(String.valueOf(product.prd_price));
+
             gallery.setAdapter(new ProductDetailAdapter(
                     getActivity(),
                     android.R.layout.simple_list_item_1,
@@ -87,7 +97,9 @@ public class DetailActivity extends ActionBarActivity
             // 사진 선택
             gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getActivity(), position + "번째 그림 선택", Toast.LENGTH_SHORT).show();
+
+//                  Toast.makeText(getActivity(), position + "번째 그림 선택", Toast.LENGTH_SHORT).show();
+
                 }
             });
 
