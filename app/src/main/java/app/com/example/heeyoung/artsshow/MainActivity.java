@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +13,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,12 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import app.com.example.heeyoung.artsshow.model.Product;
 import butterknife.ButterKnife;
@@ -116,10 +109,10 @@ public class MainActivity extends ActionBarActivity
         if ( id == R.id.action_add ) {
             //작품추가 화면 띄우기
 
-         //   Toast.makeText(MainActivity.this, " 준비중입니다.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, " 준비중입니다.", Toast.LENGTH_SHORT).show();
 
-              Intent intent = new Intent(this, ArtsRegisterActivity.class);
-             startActivity(intent);
+            Intent intent = new Intent(this, ArtsRegisterActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -229,14 +222,12 @@ public class MainActivity extends ActionBarActivity
                                  ViewGroup container,
                                  Bundle savedInstanceState)
         {
-            Bundle args = getArguments();
-
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.inject(this, rootView);
 
             mProductListAdapter = new ProductListAdapter(getActivity(), android.R.layout.simple_list_item_1);
             productListView.setAdapter(mProductListAdapter);
-            updateProducts(args.getString("type"));
+            updateProducts(mOffset);
 
             return rootView;
         }
@@ -248,57 +239,17 @@ public class MainActivity extends ActionBarActivity
             ButterKnife.reset(this);
         }
 
-        private void updateProducts(String type)
-        {
-            FetchProductsTask productsTask = new FetchProductsTask();
-            productsTask.execute(type, new Integer(mOffset).toString());
-        }
-
         @Override
         public void onResume()
         {
             super.onResume();
-            Bundle args = getArguments();
-            updateProducts(args.getString("type"));
+            updateProducts(mOffset);
         }
 
-        private class FetchProductsTask extends AsyncTask<String, Void, String>
+        private void updateProducts(int offset)
         {
-            OkHttpClient client = new OkHttpClient();
-
-            @Override
-            protected String doInBackground(String... params)
-            {
-                String result = "";
-
-                try {
-                    Request request = new Request.Builder()
-                            .url("http://arts.9cells.com/api1/products/" + params[0] + "/offset/" + params[1])
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    result = response.body().string();
-                } catch (Exception e) {
-                    Log.e("error", e.getMessage());
-                }
-
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String jsonString)
-            {
-                super.onPostExecute(jsonString);
-
-                if ( jsonString.length() > 0 ) {
-                    Gson gson = new GsonBuilder().create();
-                    Product[] products = gson.fromJson(jsonString, Product[].class);
-
-                    mProductListAdapter.clear();
-                    for(Product product : products) {
-                        mProductListAdapter.add(product);
-                    }
-                }
-            }
+            Bundle args = getArguments();
+            FetchProductsTask.getProducts(args.getString("type"), offset, mProductListAdapter);
         }
 
         static class ProductListAdapter extends ArrayAdapter<Product>
@@ -385,12 +336,9 @@ public class MainActivity extends ActionBarActivity
 
             static class ViewHolder
             {
-                @InjectView(R.id.artistName)
-                TextView m_artist_name;
-                @InjectView(R.id.button_like)
-                ImageButton m_Btn;
-                @InjectView(R.id.artistView)
-                ImageView m_artist_img;
+                @InjectView(R.id.artistName) TextView m_artist_name;
+                @InjectView(R.id.button_like) ImageButton m_Btn;
+                @InjectView(R.id.artistView) ImageView m_artist_img;
                 @InjectView(R.id.time) TextView m_time;
                 @InjectView(R.id.artistNation) TextView m_artist_na;
                 @InjectView(R.id.artistUniv) TextView m_artist_inf;

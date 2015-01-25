@@ -2,12 +2,10 @@ package app.com.example.heeyoung.artsshow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,11 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import app.com.example.heeyoung.artsshow.model.Brand;
 import app.com.example.heeyoung.artsshow.model.Product;
@@ -127,7 +120,7 @@ public class ProfileActivity extends ActionBarActivity
                     }
                 });
              } */
-            updateProducts(brand.brand_id);
+            updateProducts(brand.brand_id, mOffset);
 
             return rootView;
         }
@@ -139,49 +132,9 @@ public class ProfileActivity extends ActionBarActivity
             ButterKnife.reset(this);
         }
 
-        private void updateProducts(String brandId)
+        private void updateProducts(String brandId, int offset)
         {
-            FetchProductsTask productsTask = new FetchProductsTask();
-            productsTask.execute(brandId, new Integer(mOffset).toString());
-        }
-
-        private class FetchProductsTask extends AsyncTask<String, Void, String>
-        {
-            OkHttpClient client = new OkHttpClient();
-
-            @Override
-            protected String doInBackground(String... params)
-            {
-                String result = "";
-
-                try {
-                    Request request = new Request.Builder()
-                            .url("http://arts.9cells.com/api1/products/brand/" + params[0] + "/offset/" + params[1])
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    result = response.body().string();
-                } catch (Exception e) {
-                    Log.e("error", e.getMessage());
-                }
-
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String jsonString)
-            {
-                super.onPostExecute(jsonString);
-
-                if ( jsonString.length() > 0 ) {
-                    Gson gson = new GsonBuilder().create();
-                    Product[] products = gson.fromJson(jsonString, Product[].class);
-
-                    mImageAdapter.clear();
-                    for (Product product : products) {
-                        mImageAdapter.add(product);
-                    }
-                }
-            }
+            FetchProductsTask.getBrandProducts(brandId, offset, mImageAdapter);
         }
     }
 
